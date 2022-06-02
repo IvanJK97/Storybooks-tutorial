@@ -1,3 +1,15 @@
+# Commits
+
+1. Setup Express Server, connect to MongoDB, and created login page and some layouts
+   a. Setup Express in `app.js` in root and available routes at `routes/index.js`
+   b. Connect to MongoDB in `config/db.js`
+   c. Layouts created in `views/layouts` and login & dashboard pages in `views`
+2. Enabled authentication with Google OAuth 2.0 and Passport
+   a. Configured strategy in `config/passport.js`
+   b. Created user model in `models/User.js` for what user data's shape would be
+   c. Created routes to login and logout in `routes/auth.js`
+   d. Added auth middleware to protected routes and login page in `middleware/auth.js`
+
 # Setup and dependencies use
 
 - npm init
