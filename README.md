@@ -11,9 +11,12 @@
    d. Added auth middleware to protected routes and login page in `middleware/auth.js`
 3. Show users' stories, add story form page, and add story functionality
    a. Created story model in `models/Story.js` for story's shape
-   b. Show user's stories in `dashboard`
-   c. Created routes for stories in `routes/stories.js` - GET add form and POST functionality
+   b. Show user's stories in template `dashboard.hbs` and route `/dashboard`
+   c. Created routes for stories in `routes/stories.js` - GET add form (`/stories/add`) and POST functionality (`/stories/`)
    d. Added error pages in `views/error` and partial template `views/partials/_add_btn.hbs`, which gets inserted into other pages
+4. Show all public stories with route `/stories` and template at `/stories/index.hbs`
+   a. Added helpers in `/helpers/hbs.js` to format date, truncate long stories, strip out tags
+   b. Conditionally show edit icon on stories through logic in `/helpers/hbs.js`
 
 # Setup and dependencies use
 

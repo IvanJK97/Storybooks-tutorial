@@ -42,10 +42,25 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set Express global variable, enable accessing logged in user from Hbs templates
+// app.use(function (req, res, next) {
+//   res.locals.user = req.user || null;
+//   next();
+// });
+
+// Handlebars Helpers
+const { formatDate, stripTags, truncate, editIcon } = require("./helpers/hbs");
+
 // Handlebars ** make sure /views/layouts is named properly
 app.engine(
   ".hbs",
   exphbs.engine({
+    helpers: {
+      formatDate,
+      stripTags,
+      truncate,
+      editIcon,
+    },
     defaultLayout: "main",
     extname: ".hbs",
   })

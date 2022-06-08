@@ -11,12 +11,31 @@ router.get("/add", ensureAuth, (req, res) => {
 });
 
 // @desc    Process add form
-// @route   GET /stories/add
+// @route   POST /stories/
 router.post("/", ensureAuth, async (req, res) => {
   try {
     req.body.user = req.user.id;
     await Story.create(req.body);
     res.redirect("/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.render("error/500");
+  }
+});
+
+// @desc    Show all public stories
+// @route   GET /stories
+router.get("/", ensureAuth, async (req, res) => {
+  try {
+    const stories = await Story.find({ status: "public" })
+      .populate("user") // Add user info on stories
+      .sort({ createdAt: "desc" })
+      .lean();
+
+    res.render("stories/index", {
+      stories,
+      user: req.user,
+    });
   } catch (err) {
     console.error(err);
     res.render("error/500");
