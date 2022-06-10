@@ -17,6 +17,10 @@
 4. Show all public stories with route `/stories` and template at `/stories/index.hbs`
    a. Added helpers in `/helpers/hbs.js` to format date, truncate long stories, strip out tags
    b. Conditionally show edit icon on stories through logic in `/helpers/hbs.js`
+5. Enabled editing stories with route `/stories/edit/:id` to edit story with id and route `/stories/:id` to handle submit edits
+   a. Added edit story template in `/stories/edit.hbs`, mostly the same as add template but with fields filled out
+   b. Added select helper so dropdown menu have the right field when editing
+   c. Added method override middleware for making PUT and DELETE requests since form methods are only GET/POST by default
 
 # Setup and dependencies use
 

@@ -16,7 +16,7 @@ router.get("/", ensureGuest, (req, res) => {
 //  @desc Dashboard; Show all of user's stories
 //  @route GET /dashboard
 router.get("/dashboard", ensureAuth, async (req, res) => {
-  console.log(req.user); // Get req.user after authenticating
+  // console.log(req.user); // Get req.user after authenticating
   try {
     // Call .lean to get plain JS objects, not Mongoose Documents
     const stories = await Story.find({ user: req.user.id }).lean();

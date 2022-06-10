@@ -4,6 +4,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const exphbs = require("express-handlebars");
+const methodOverride = require("method-override");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -19,15 +20,29 @@ connectDB();
 
 const app = express();
 
-// Body parser to accept form data
+// Middleware
+
+// Body parser middleware to accept form data
 app.use(express.urlencoded({ extended: false }));
+
+// Method override for making PUT and DELETE requests since form methods are only GET/POST by default
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === "object" && "_method" in req.body) {
+      // Look in urlencoded POST bodies and delete it
+      let method = req.body._method;
+      delete req.body._method;
+      return method;
+    }
+  })
+);
 
 // Logging middleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// Sessions - * must be above Passport middleware *
+// Sessions - * must be above Passport middleware * (so we don't logout when server refreshes)
 app.use(
   session({
     secret: "keyboard cat",
@@ -43,13 +58,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set Express global variable, enable accessing logged in user from Hbs templates
+// Commented out bc seems easier just to pass in "req.user" from needed route
 // app.use(function (req, res, next) {
 //   res.locals.user = req.user || null;
 //   next();
 // });
 
 // Handlebars Helpers
-const { formatDate, stripTags, truncate, editIcon } = require("./helpers/hbs");
+const {
+  formatDate,
+  stripTags,
+  truncate,
+  editIcon,
+  select,
+} = require("./helpers/hbs");
 
 // Handlebars ** make sure /views/layouts is named properly
 app.engine(
@@ -60,6 +82,7 @@ app.engine(
       stripTags,
       truncate,
       editIcon,
+      select,
     },
     defaultLayout: "main",
     extname: ".hbs",

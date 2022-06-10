@@ -31,4 +31,17 @@ module.exports = {
       return "";
     }
   },
+  select: function (selected, options) {
+    // console.log("Here", options.fn(this));
+    return options
+      .fn(this)
+      .replace(
+        new RegExp(' value="' + selected + '"'),
+        '$& selected="selected"'
+      )
+      .replace(
+        new RegExp(">" + selected + "</option>"),
+        ' selected="selected"$&'
+      );
+  },
 };
